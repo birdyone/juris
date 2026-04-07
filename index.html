@@ -252,5 +252,67 @@
   </footer>
 
   <script src="./assets/main.js"></script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll("button");
+  const anchorBtn = buttons[0];
+  const verifyBtn = buttons[1];
+
+  const inputs = document.querySelectorAll("input");
+  const textarea = document.querySelector("textarea");
+
+  const demoCard = anchorBtn.closest(".rounded-2xl");
+
+  const resultBox = document.createElement("div");
+  resultBox.className = "mt-4 p-4 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700";
+  resultBox.innerHTML = "No transaction yet.";
+  demoCard.appendChild(resultBox);
+
+  anchorBtn.addEventListener("click", () => {
+    const title = inputs[0]?.value || "Untitled contract";
+    const partyA = inputs[1]?.value || "Unknown Party A";
+    const partyB = inputs[2]?.value || "Unknown Party B";
+    const hash = inputs[3]?.value || "0x8f3a...demo";
+    const notes = textarea?.value || "No extra notes";
+
+    anchorBtn.disabled = true;
+    anchorBtn.textContent = "Anchoring...";
+
+    setTimeout(() => {
+      anchorBtn.disabled = false;
+      anchorBtn.textContent = "Anchor on-chain";
+
+      resultBox.innerHTML = `
+        <div class="font-semibold text-emerald-700">✅ Contract anchored successfully</div>
+        <div class="mt-2"><strong>Title:</strong> ${title}</div>
+        <div><strong>Party A:</strong> ${partyA}</div>
+        <div><strong>Party B:</strong> ${partyB}</div>
+        <div><strong>Hash:</strong> ${hash}</div>
+        <div><strong>Notes:</strong> ${notes}</div>
+        <div class="mt-2"><strong>Txn Ref:</strong> 0xJC${Math.random().toString(16).slice(2, 10)}</div>
+        <div><strong>Timestamp:</strong> ${new Date().toLocaleString()}</div>
+      `;
+    }, 1200);
+  });
+
+  verifyBtn.addEventListener("click", () => {
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = "Verifying...";
+
+    setTimeout(() => {
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = "Verify evidence";
+
+      resultBox.innerHTML = `
+        <div class="font-semibold text-cyan-700">🔎 Evidence verified</div>
+        <div class="mt-2">The submitted record matches the anchored proof.</div>
+        <div><strong>Status:</strong> Valid</div>
+        <div><strong>Verified at:</strong> ${new Date().toLocaleString()}</div>
+      `;
+    }, 900);
+  });
+});
+</script>
 </body>
 </html>
